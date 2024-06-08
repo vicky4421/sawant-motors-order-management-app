@@ -18,6 +18,7 @@ public class OrderEntity {
 
     private Date orderDate;
     @ManyToOne
+    @JoinColumn(name = "partyId")       // foreign key name in order entity table.
     private PartyEntity partyEntity;
 
 }

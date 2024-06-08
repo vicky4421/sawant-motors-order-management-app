@@ -1,10 +1,9 @@
 package com.vismijatech.main.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +14,9 @@ import lombok.*;
 public class PartyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private int partyId;
     private String partyName;
+    @OneToMany(mappedBy = "partyEntity")        // mapped by: to avoid creation of new table
+    private List<OrderEntity> orderList;
 
 }
