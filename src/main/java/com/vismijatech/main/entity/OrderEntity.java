@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +21,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "partyId")       // foreign key name in order entity table.
     private PartyEntity partyEntity;
+
+    @OneToMany (mappedBy = "orderEntity")
+    private List<OrderDetailsEntity> orderDetailsEntity;
 
 }
