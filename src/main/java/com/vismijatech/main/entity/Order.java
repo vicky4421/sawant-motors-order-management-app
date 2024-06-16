@@ -23,15 +23,14 @@ public class Order {
     @JoinColumn(name = "party_id")
     private Party party;
 
+    // bidirectional relation between order and order details
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_detail_id")
+    private OrderDetails orderDetails;
+
     // Constructors
     public Order(String name, Date orderDate) {
         this.name = name;
         this.orderDate = orderDate;
-    }
-
-    public Order(String name, Date orderDate, Party party) {
-        this.name = name;
-        this.orderDate = orderDate;
-        this.party = party;
     }
 }

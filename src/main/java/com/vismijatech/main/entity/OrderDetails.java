@@ -1,9 +1,7 @@
 package com.vismijatech.main.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +15,11 @@ public class OrderDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int quantity;
+
+    // bidirectional relation between order and order details
+    @OneToOne(mappedBy = "orderDetails", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Order order;
 
     // constructors
     public OrderDetails(int quantity) {
