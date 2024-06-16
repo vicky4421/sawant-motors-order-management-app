@@ -17,6 +17,8 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private int quantity;
 
     // bidirectional relation between order and order details

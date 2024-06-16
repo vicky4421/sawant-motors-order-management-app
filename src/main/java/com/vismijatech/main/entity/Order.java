@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -15,8 +16,12 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
-    private Date orderDate;
+
+    @Column(nullable = false)
+    private LocalDate orderDate;
 
     // bidirectional relation between order and party
     @ManyToOne(cascade = CascadeType.ALL)
@@ -29,7 +34,7 @@ public class Order {
     private OrderDetails orderDetails;
 
     // Constructors
-    public Order(String name, Date orderDate) {
+    public Order(String name, LocalDate orderDate) {
         this.name = name;
         this.orderDate = orderDate;
     }

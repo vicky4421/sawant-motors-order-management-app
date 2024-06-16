@@ -16,6 +16,8 @@ public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
 
     // bidirectional relation between party and contact number
