@@ -1,5 +1,13 @@
 package com.vismijatech.main.dto;
 
-public class ContactNumberDTO {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ContactNumberDTO {
+    private Long id;
+    private String phoneNumber;
 }
