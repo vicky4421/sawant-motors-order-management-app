@@ -31,11 +31,6 @@ public class Party {
         this.name = name;
     }
 
-    public Party(String name, List<ContactNumber> contactNumbersList) {
-        this.name = name;
-        this.contactNumbersList = contactNumbersList;
-    }
-
     // convenience method for bidirectional relation between party and contact number
     public void addContactNumber(ContactNumber contactNumber) {
         if (contactNumbersList == null) contactNumbersList = new ArrayList<>();

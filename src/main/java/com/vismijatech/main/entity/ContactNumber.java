@@ -24,9 +24,4 @@ public class ContactNumber {
     public ContactNumber(String number) {
         this.phoneNumber = number;
     }
-
-    public ContactNumber(String number, Party party) {
-        this.phoneNumber = number;
-        this.party = party;
-    }
 }
