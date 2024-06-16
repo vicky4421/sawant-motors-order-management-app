@@ -32,6 +32,15 @@ public class ProductCategory {
     )
     private List<Product> productList;
 
+    // Self-referencing relationship for parent category
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private ProductCategory parentCategory;
+
+    // Self-referencing relationship for child categories
+    @OneToMany(mappedBy = "parentCategory")
+    private List<ProductCategory> childCategories;
+
     // constructors
     public ProductCategory(String name) {
         this.name = name;
@@ -42,5 +51,12 @@ public class ProductCategory {
         if (productList == null) productList = new ArrayList<>();
         productList.add(product);
         product.setCategory(this);
+    }
+
+    // Convenience method to add a child category
+    public void addChildCategory(ProductCategory childCategory) {
+        if (childCategories == null) childCategories = new ArrayList<>();
+        childCategories.add(childCategory);
+        childCategory.setParentCategory(this);
     }
 }
