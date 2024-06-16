@@ -34,6 +34,17 @@ public class Product {
     )
     private List<OrderDetails> orderDetailsList;
 
+    @ManyToOne(
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH
+            }
+    )
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
+
     // constructors
     public Product(String name, String partNumber) {
         this.name = name;
