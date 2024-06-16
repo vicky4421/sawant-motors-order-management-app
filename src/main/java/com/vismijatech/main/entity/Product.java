@@ -19,6 +19,7 @@ public class Product {
     private String name;
     private String partNumber;
 
+    // bidirectional one-to-many association to OrderDetails
     @ManyToMany(
             cascade = {
                     CascadeType.PERSIST,
@@ -34,6 +35,7 @@ public class Product {
     )
     private List<OrderDetails> orderDetailsList;
 
+    // bidirectional many-to-one association to Unit
     @ManyToOne(
             cascade = {
                     CascadeType.PERSIST,
@@ -45,6 +47,7 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
+    // bidirectional many-to-one association to ProductCategory
     @ManyToOne(
             cascade = {
                     CascadeType.PERSIST,

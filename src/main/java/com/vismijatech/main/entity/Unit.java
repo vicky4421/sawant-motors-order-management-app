@@ -19,6 +19,7 @@ public class Unit {
     private String name;
     private String shortName;
 
+    // bidirectional one-to-many association to Product
     @OneToMany(
             cascade = {
                     CascadeType.PERSIST,
@@ -40,5 +41,6 @@ public class Unit {
     public void addProduct(Product product) {
         if (productList == null) productList = new ArrayList<>();
         productList.add(product);
+        product.setUnit(this);
     }
 }

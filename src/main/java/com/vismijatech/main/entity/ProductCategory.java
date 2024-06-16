@@ -18,6 +18,7 @@ public class ProductCategory {
     private Long id;
     private String name;
 
+    // bidirectional one-to-many association to Product
     @OneToMany(
             mappedBy = "category",
             cascade = {
