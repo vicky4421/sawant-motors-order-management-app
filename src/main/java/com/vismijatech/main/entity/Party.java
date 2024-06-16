@@ -22,6 +22,10 @@ public class Party {
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
     private List<ContactNumber> contactNumbersList;
 
+    // bidirectional relation between order and party
+    @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
+    private List<Order> orderList;
+
     // Constructors
     public Party(String name) {
         this.name = name;
@@ -37,5 +41,12 @@ public class Party {
         if (contactNumbersList == null) contactNumbersList = new ArrayList<>();
         contactNumbersList.add(contactNumber);
         contactNumber.setParty(this);
+    }
+
+    // convenience method for bidirectional relation between party and order
+    public void addOrder(Order order) {
+        if (orderList == null) orderList = new ArrayList<>();
+        orderList.add(order);
+        order.setParty(this);
     }
 }
