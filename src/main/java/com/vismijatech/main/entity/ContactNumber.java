@@ -1,9 +1,6 @@
 package com.vismijatech.main.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +15,18 @@ public class ContactNumber {
     private Long id;
     private String phoneNumber;
 
+    // bidirectional relation between contact number and party
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "party_id")
+    private Party party;
+
     // Constructors
     public ContactNumber(String number) {
         this.phoneNumber = number;
+    }
+
+    public ContactNumber(String number, Party party) {
+        this.phoneNumber = number;
+        this.party = party;
     }
 }
