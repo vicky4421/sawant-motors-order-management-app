@@ -1,5 +1,6 @@
 package com.vismijatech.main.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,9 @@ public class ContactNumber {
 
     // bidirectional relation between contact number and party
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "party_id")
-    private Party party;
+    @JoinColumn(name = "supplier_id")
+    @JsonIgnore
+    private Supplier supplier;
 
     // Constructors
     public ContactNumber(String number) {
