@@ -1,5 +1,6 @@
 package com.vismijatech.main.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Party {
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,15 +22,16 @@ public class Party {
     private String name;
 
     // bidirectional relation between party and contact number
-    @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
     private List<ContactNumber> contactNumbersList;
 
     // bidirectional relation between order and party
-    @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Order> orderList;
 
     // Constructors
-    public Party(String name) {
+    public Supplier(String name) {
         this.name = name;
     }
 
@@ -37,13 +39,13 @@ public class Party {
     public void addContactNumber(ContactNumber contactNumber) {
         if (contactNumbersList == null) contactNumbersList = new ArrayList<>();
         contactNumbersList.add(contactNumber);
-        contactNumber.setParty(this);
+        contactNumber.setSupplier(this);
     }
 
     // convenience method for bidirectional relation between party and order
     public void addOrder(Order order) {
         if (orderList == null) orderList = new ArrayList<>();
         orderList.add(order);
-        order.setParty(this);
+        order.setSupplier(this);
     }
 }
