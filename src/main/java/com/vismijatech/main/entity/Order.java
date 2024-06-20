@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -26,8 +25,8 @@ public class Order {
 
     // bidirectional relation between order and party
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "party_id")
-    private Party party;
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
     // bidirectional relation between order and order details
     @OneToOne(cascade = CascadeType.ALL)
