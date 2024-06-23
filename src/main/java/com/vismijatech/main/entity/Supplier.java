@@ -3,6 +3,7 @@ package com.vismijatech.main.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class Supplier {
     @Id
@@ -33,6 +35,13 @@ public class Supplier {
     private List<Order> orderList;
 
     // Constructors
+
+    public Supplier(Long id, String name, String whatsappNumber, String alternateNumber) {
+        this.id = id;
+        this.name = name;
+        this.whatsappNumber = whatsappNumber;
+        this.alternateNumber = alternateNumber;
+    }
     public Supplier(String name, String whatsappNumber, String alternateNumber) {
         this.name = name;
         this.whatsappNumber = whatsappNumber;
