@@ -21,9 +21,11 @@ public class Supplier {
     @Column(nullable = false)
     private String name;
 
-    // bidirectional relation between party and contact number
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
-    private List<ContactNumber> contactNumbersList;
+    @Column(unique = true, nullable = false)
+    private String whatsappNumber;
+
+    @Column(unique = true)
+    private String alternateNumber;
 
     // bidirectional relation between order and party
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
@@ -31,15 +33,15 @@ public class Supplier {
     private List<Order> orderList;
 
     // Constructors
-    public Supplier(String name) {
+    public Supplier(String name, String whatsappNumber, String alternateNumber) {
         this.name = name;
+        this.whatsappNumber = whatsappNumber;
+        this.alternateNumber = alternateNumber;
     }
 
-    // convenience method for bidirectional relation between party and contact number
-    public void addContactNumber(ContactNumber contactNumber) {
-        if (contactNumbersList == null) contactNumbersList = new ArrayList<>();
-        contactNumbersList.add(contactNumber);
-        contactNumber.setSupplier(this);
+    public Supplier(String name, String whatsappNumber) {
+        this.name = name;
+        this.whatsappNumber = whatsappNumber;
     }
 
     // convenience method for bidirectional relation between party and order
