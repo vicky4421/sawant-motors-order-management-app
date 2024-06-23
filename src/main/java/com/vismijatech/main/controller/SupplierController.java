@@ -27,6 +27,7 @@ public class SupplierController {
         this.modelMapper = modelMapper;
     }
 
+    // save supplier
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping
     public ResponseEntity<?> saveSupplier(@RequestBody SupplierDTO supplierDTO) {
@@ -40,6 +41,7 @@ public class SupplierController {
                 .orElseGet(() -> new ResponseEntity("Supplier not saved!", HttpStatus.BAD_REQUEST));
     }
 
+    // get all suppliers
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/allSuppliers")
     public ResponseEntity<?> getAllSuppliers() {
@@ -62,6 +64,7 @@ public class SupplierController {
 
     }
 
+    // delete supplier
     @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteSupplier(@PathVariable Long id) {
@@ -72,6 +75,28 @@ public class SupplierController {
         Optional<SupplierDTO> optionalSupplierDTO = Optional.of(supplierDTO);
 
         return optionalSupplierDTO
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
+    }
+
+    // edit supplier
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping
+    public ResponseEntity<?> editSupplier(@RequestBody SupplierDTO supplierDTO) {
+        Supplier supplier = Supplier.builder()
+                .id(supplierDTO.getId())
+                .build();
+
+        // check if name is not empty
+        if (supplierDTO.getName() != null) supplier.setName(supplierDTO.getName());
+
+        // check if whatsapp number is not empty
+        if (supplierDTO.getWhatsappNumber() != null) supplier.setWhatsappNumber(supplierDTO.getWhatsappNumber());
+
+        // check if alternate number is not empty
+        if (supplierDTO.getAlternateNumber() != null) supplier.setAlternateNumber(supplierDTO.getAlternateNumber());
+
+        return supplierService.editSupplier(supplier)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
     }
