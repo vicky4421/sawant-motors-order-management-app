@@ -10,4 +10,5 @@ public interface SupplierService {
     Optional<List<Supplier>> getAllSuppliers();
     Optional<Supplier> deleteSupplierById(Long id);
     Optional<Supplier> editSupplier(Supplier supplier);
+    Optional<Supplier> updateContactNumber(Supplier supplier);
 }
