@@ -75,26 +75,33 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Optional<Supplier> editSupplier(Supplier supplier) {
-        System.out.println("supplier name: " + supplier.getName());
-        System.out.println("supplier whatsapp number: " + supplier.getWhatsappNumber());
-        System.out.println("supplier alternate number: " + supplier.getAlternateNumber());
         // get supplier from database
         Optional<Supplier> oldSupplier = supplierRepository.findById(supplier.getId());
         if (oldSupplier.isPresent()) {
             Supplier newSupplier = oldSupplier.get();
             if (!supplier.getName().isEmpty()) {
                 newSupplier.setName(supplier.getName());
-                System.out.println("new supplier name: " + newSupplier.getName());
             }
             if (!supplier.getAlternateNumber().isEmpty()) {
                 newSupplier.setAlternateNumber(supplier.getAlternateNumber());
-                System.out.println("new supplier alternate number: " + newSupplier.getAlternateNumber());
             }
             if (!supplier.getWhatsappNumber().isEmpty()) {
                 newSupplier.setWhatsappNumber(supplier.getWhatsappNumber());
-                System.out.println("new supplier whatsapp number: " + newSupplier.getWhatsappNumber());
             }
+
             return Optional.of(supplierRepository.save(newSupplier));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Supplier> updateContactNumber(Supplier supplier) {
+        // get supplier from database
+        Optional<Supplier> oldSupplier = supplierRepository.findById(supplier.getId());
+        if (oldSupplier.isPresent()){
+            if (supplier.getWhatsappNumber() == null) oldSupplier.get().setWhatsappNumber(null);
+            if (supplier.getAlternateNumber() == null) oldSupplier.get().setAlternateNumber(null);
+            return Optional.of(supplierRepository.save(oldSupplier.get()));
         }
         return Optional.empty();
     }
