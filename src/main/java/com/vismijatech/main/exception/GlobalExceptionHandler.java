@@ -15,4 +15,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Integrity Constraint Violation: " + ex.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> nullPointerException(NullPointerException ex){
+        return new ResponseEntity<>("Null pointer exception" + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }
