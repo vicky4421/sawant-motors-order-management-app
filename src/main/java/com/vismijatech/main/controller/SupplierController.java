@@ -100,4 +100,19 @@ public class SupplierController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
     }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/updateContact")
+    public ResponseEntity<?> updateContact(@RequestBody SupplierDTO supplierDTO){
+        Supplier supplier = Supplier.builder()
+                .name(supplierDTO.getName())
+                .id(supplierDTO.getId())
+                .whatsappNumber(supplierDTO.getWhatsappNumber())
+                .alternateNumber(supplierDTO.getAlternateNumber())
+                .build();
+
+        return supplierService.updateContactNumber(supplier)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity("Supplier not fouond", HttpStatus.NOT_FOUND));
+    }
 }
