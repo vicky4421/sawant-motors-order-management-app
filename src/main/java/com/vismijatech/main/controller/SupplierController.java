@@ -66,17 +66,21 @@ public class SupplierController {
 
     // delete supplier
     @CrossOrigin(origins = "http://localhost:5173")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteSupplier/{id}")
     public ResponseEntity<?> deleteSupplier(@PathVariable Long id) {
-        Supplier supplier = supplierService.deleteSupplierById(id).get();
+        Optional<Supplier> supplier = supplierService.deleteSupplierById(id);
+        SupplierDTO supplierDTO = null;
 
-        SupplierDTO supplierDTO = modelMapper.map(supplier, SupplierDTO.class);
+        if (supplier.isPresent()){
+            supplierDTO = modelMapper.map(supplier, SupplierDTO.class);
+            Optional<SupplierDTO> optionalSupplierDTO = Optional.ofNullable(supplierDTO);
 
-        Optional<SupplierDTO> optionalSupplierDTO = Optional.of(supplierDTO);
+            return optionalSupplierDTO
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
+        }
 
-        return optionalSupplierDTO
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
+        return new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND);
     }
 
     // edit supplier
