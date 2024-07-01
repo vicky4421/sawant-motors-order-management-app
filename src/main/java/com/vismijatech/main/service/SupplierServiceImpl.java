@@ -32,18 +32,15 @@ public class SupplierServiceImpl implements SupplierService {
 
         // check suppliers whatsapp number in both list
         if (whatsappNumbers.contains(supplier.getWhatsappNumber()) || alternateNumbers.contains(supplier.getWhatsappNumber())) {
-            System.out.println("first block");
             return Optional.empty();
         }
 
         // check suppliers alternate number in both list
         if (supplier.getAlternateNumber() != null){
             if (whatsappNumbers.contains(supplier.getAlternateNumber()) || alternateNumbers.contains(supplier.getAlternateNumber())) {
-                System.out.println("second block");
                 return Optional.empty();
             }
         }
-
 
         // save supplier to database
         Supplier supplier1 = supplierRepository.save(supplier);
