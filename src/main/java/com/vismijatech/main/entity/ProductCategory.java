@@ -2,6 +2,7 @@ package com.vismijatech.main.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,14 +12,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String categoryName;
 
     // bidirectional one-to-many association to Product
     @OneToMany(
@@ -38,12 +40,12 @@ public class ProductCategory {
     private ProductCategory parentCategory;
 
     // Self-referencing relationship for child categories
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.EAGER)
     private List<ProductCategory> childCategories;
 
     // constructors
     public ProductCategory(String name) {
-        this.name = name;
+        this.categoryName = name;
     }
 
     // convenience methods to add product
