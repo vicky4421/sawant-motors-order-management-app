@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/supplier")
-@CrossOrigin(origins = "http://localhost:5173")
 public class SupplierController {
     // get supplier service and contact number service reference
     private final SupplierService supplierService;
