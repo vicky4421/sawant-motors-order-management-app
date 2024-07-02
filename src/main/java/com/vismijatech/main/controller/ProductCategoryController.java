@@ -90,4 +90,23 @@ public class ProductCategoryController {
         }
         return new ResponseEntity("Category not found!", HttpStatus.NOT_FOUND);
     }
+
+    // update category
+    @PutMapping
+    @CrossOrigin(origins = "http://localhost:5173")
+    public ResponseEntity<?> updateCategory(@RequestBody ProductCategoryDTO categoryDTO) {
+        ProductCategory category = ProductCategory.builder()
+                .id(categoryDTO.getId())
+                .categoryName(categoryDTO.getCategoryName())
+                .build();
+
+        if (categoryDTO.getParentCategory() != null) {
+            Optional<ProductCategory> parentCategory = categoryService.findCategoryByName(categoryDTO.getParentCategory());
+            parentCategory.ifPresent(category::setParentCategory);
+        }
+
+        return categoryService.updateCategory(category)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity("Category not updated!", HttpStatus.BAD_REQUEST));
+    }
 }
