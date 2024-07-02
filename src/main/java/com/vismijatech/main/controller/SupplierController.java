@@ -86,7 +86,7 @@ public class SupplierController {
     // edit supplier
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping
-    public ResponseEntity<?> editSupplier(@RequestBody SupplierDTO supplierDTO) {
+    public ResponseEntity<?> updateSupplier(@RequestBody SupplierDTO supplierDTO) {
         Supplier supplier = Supplier.builder()
                 .id(supplierDTO.getId())
                 .build();
@@ -100,7 +100,7 @@ public class SupplierController {
         // check if alternate number is not empty
         if (supplierDTO.getAlternateNumber() != null) supplier.setAlternateNumber(supplierDTO.getAlternateNumber());
 
-        return supplierService.editSupplier(supplier)
+        return supplierService.updateSupplier(supplier)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND));
     }
