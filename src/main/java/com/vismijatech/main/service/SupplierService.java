@@ -9,6 +9,6 @@ public interface SupplierService {
     Optional<Supplier> saveSupplier(Supplier supplier);
     Optional<List<Supplier>> getAllSuppliers();
     Optional<Supplier> deleteSupplierById(Long id);
-    Optional<Supplier> editSupplier(Supplier supplier);
+    Optional<Supplier> updateSupplier(Supplier supplier);
     Optional<Supplier> updateContactNumber(Supplier supplier);
 }
