@@ -25,7 +25,7 @@ public class Order {
 
     // bidirectional relation between order and party
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "supplier_id")
+    @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
     // bidirectional relation between order and order details
@@ -37,5 +37,14 @@ public class Order {
     public Order(String name, LocalDate orderDate) {
         this.name = name;
         this.orderDate = orderDate;
+    }
+
+    // convenience methods
+    public void addOrderDetails(OrderDetails orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public void addSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }
