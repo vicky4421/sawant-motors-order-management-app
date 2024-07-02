@@ -33,12 +33,14 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return Optional.of(categoryRepository.findAll());
     }
 
+    // find category by id
     @Override
     public Optional<ProductCategory> findCategoryById(Long id) {
         // get category from database
         return categoryRepository.findById(id);
     }
 
+    // delete category
     @Override
     public Optional<ProductCategory> deleteCategory(Long id) {
         // find category in database
@@ -46,6 +48,22 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         if (category.isPresent()) {
             categoryRepository.deleteById(id);
             return category;
+        }
+        return Optional.empty();
+    }
+
+    // update category
+    @Override
+    public Optional<ProductCategory> updateCategory(ProductCategory category) {
+        // find category in database
+        Optional<ProductCategory> oldCategory = categoryRepository.findById(category.getId());
+
+        if (oldCategory.isPresent()){
+            ProductCategory newCategory = oldCategory.get();
+            if (category.getCategoryName() != null) newCategory.setCategoryName(category.getCategoryName());
+            if (category.getParentCategory() != null) newCategory.setParentCategory(category.getParentCategory());
+            if (category.getParentCategory() == null) newCategory.setParentCategory(null);
+            return Optional.of(categoryRepository.save(newCategory));
         }
         return Optional.empty();
     }
