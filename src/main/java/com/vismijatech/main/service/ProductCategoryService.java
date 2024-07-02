@@ -11,4 +11,5 @@ public interface ProductCategoryService {
     Optional<List<ProductCategory>> getAllCategories();
     Optional<ProductCategory> findCategoryById(Long id);
     Optional<ProductCategory> deleteCategory(Long id);
+    Optional<ProductCategory> updateCategory(ProductCategory category);
 }
