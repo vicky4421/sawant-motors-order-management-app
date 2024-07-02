@@ -48,7 +48,7 @@ public class Product {
                     CascadeType.REFRESH
             }
     )
-    @JoinColumn(name = "unit_id")
+    @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
 
     // bidirectional many-to-one association to ProductCategory
@@ -60,7 +60,7 @@ public class Product {
                     CascadeType.REFRESH
             }
     )
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;
 
     // constructors
@@ -73,5 +73,10 @@ public class Product {
     public void addOrderDetails(OrderDetails orderDetails) {
         if (orderDetailsList == null) orderDetailsList = new ArrayList<>();
         orderDetailsList.add(orderDetails);
+    }
+
+    // convenience methods to add unit
+    public void addUnit(Unit unit) {
+        this.unit = unit;
     }
 }
