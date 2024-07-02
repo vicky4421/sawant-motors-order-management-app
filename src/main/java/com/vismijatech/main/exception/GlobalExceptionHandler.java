@@ -20,4 +20,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Null pointer exception" + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> illegalArgumentException(IllegalArgumentException ex){
+        return new ResponseEntity<>("Illegal argument exception" + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }
