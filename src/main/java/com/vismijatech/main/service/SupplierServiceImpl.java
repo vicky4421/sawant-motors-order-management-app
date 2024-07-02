@@ -18,6 +18,7 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierServiceImpl(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }
+
     // save supplier
     @Override
     public Optional<Supplier> saveSupplier(Supplier supplier) {
@@ -70,8 +71,9 @@ public class SupplierServiceImpl implements SupplierService {
         return Optional.empty();
     }
 
+
     @Override
-    public Optional<Supplier> editSupplier(Supplier supplier) {
+    public Optional<Supplier> updateSupplier(Supplier supplier) {
         // get supplier from database
         Optional<Supplier> oldSupplier = supplierRepository.findById(supplier.getId());
         if (oldSupplier.isPresent()) {
