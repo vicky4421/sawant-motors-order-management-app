@@ -82,7 +82,7 @@ public class SupplierController {
         return new ResponseEntity("Supplier not found!", HttpStatus.NOT_FOUND);
     }
 
-    // edit supplier
+    // update supplier
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping
     public ResponseEntity<?> updateSupplier(@RequestBody SupplierDTO supplierDTO) {
