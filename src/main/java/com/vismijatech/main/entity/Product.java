@@ -2,15 +2,14 @@ package com.vismijatech.main.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class Product {
     @Id
@@ -24,20 +23,11 @@ public class Product {
     private String partNumber;
 
     // bidirectional one-to-many association to OrderDetails
-    @ManyToMany(
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.DETACH,
-                    CascadeType.REFRESH
-            }
+    @OneToOne(
+            mappedBy = "product",
+            cascade = CascadeType.ALL
     )
-    @JoinTable(
-            name = "order_details_product",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_details_id")
-    )
-    private List<OrderDetails> orderDetailsList;
+    private OrderDetails orderDetails;
 
     // bidirectional many-to-one association to Unit
     @ManyToOne(
@@ -67,12 +57,6 @@ public class Product {
     public Product(String name, String partNumber) {
         this.name = name;
         this.partNumber = partNumber;
-    }
-
-    // convenience methods to add order details
-    public void addOrderDetails(OrderDetails orderDetails) {
-        if (orderDetailsList == null) orderDetailsList = new ArrayList<>();
-        orderDetailsList.add(orderDetails);
     }
 
     // convenience methods to add unit

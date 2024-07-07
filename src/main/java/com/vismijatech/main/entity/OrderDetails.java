@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,34 +19,25 @@ public class OrderDetails {
     private int quantity;
 
     // bidirectional relation between order and order details
-    @OneToOne(mappedBy = "orderDetails", cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
     private Order order;
 
     // bidirectional relation between product and order details
-    @ManyToMany(
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.DETACH,
-                    CascadeType.REFRESH
-            }
+    @OneToOne(
+            cascade = CascadeType.ALL
     )
-    @JoinTable(
-            name = "order_details_product",
-            joinColumns = @JoinColumn(name = "order_details_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> productList;
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     // constructors
     public OrderDetails(int quantity) {
         this.quantity = quantity;
-    }
-
-    // convenience methods to add products
-    public void addProduct(Product product) {
-        if (productList == null) productList = new ArrayList<>();
-        productList.add(product);
     }
 }
