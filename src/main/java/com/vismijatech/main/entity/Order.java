@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -29,9 +31,14 @@ public class Order {
     private Supplier supplier;
 
     // bidirectional relation between order and order details
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_detail_id")
-    private OrderDetails orderDetails;
+    @OneToMany( mappedBy = "order",
+            cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    private List<OrderDetails> orderDetailsList;
 
     // Constructors
     public Order(String name, LocalDate orderDate) {
@@ -40,8 +47,9 @@ public class Order {
     }
 
     // convenience methods
-    public void addOrderDetails(OrderDetails orderDetails) {
-        this.orderDetails = orderDetails;
+    public void addOrderDetails(OrderDetails orderDetail){
+        if (orderDetailsList == null) orderDetailsList= new ArrayList<>();
+        orderDetailsList.add(orderDetail);
     }
 
     public void addSupplier(Supplier supplier) {
