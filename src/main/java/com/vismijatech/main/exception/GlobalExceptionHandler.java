@@ -17,12 +17,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> nullPointerException(NullPointerException ex){
-        return new ResponseEntity<>("Null pointer exception" + ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Null pointer exception " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> illegalArgumentException(IllegalArgumentException ex){
-        return new ResponseEntity<>("Illegal argument exception" + ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Illegal argument exception " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> runtimeException(RuntimeException ex){
+        return new ResponseEntity<>("Runtime exception: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
