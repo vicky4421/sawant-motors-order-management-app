@@ -20,7 +20,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     // find category by name
     @Override
     public Optional<ProductCategory> findCategoryByName(String name) {
-        return Optional.of(categoryRepository.findByCategoryName(name));
+        ProductCategory category = categoryRepository.findByCategoryName(name);
+        if (category != null) return Optional.ofNullable(Optional.of(category).orElseThrow(() -> new RuntimeException("Category not found")));
+        else return Optional.empty();
     }
     // add category
     @Override
