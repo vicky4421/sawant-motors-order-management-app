@@ -10,4 +10,5 @@ public interface UnitService {
     public Optional<Unit> updateUnit(Unit unit);
     public Optional<List<Unit>> getAllUnits();
     public Optional<Unit> deleteUnit(Long id);
+    public Optional<Unit> findUnitByName(String name);
 }
