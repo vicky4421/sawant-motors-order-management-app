@@ -11,4 +11,5 @@ public interface SupplierService {
     Optional<Supplier> deleteSupplierById(Long id);
     Optional<Supplier> updateSupplier(Supplier supplier);
     Optional<Supplier> updateContactNumber(Supplier supplier);
+    Optional<Supplier> findSupplierByName(String name);
 }
