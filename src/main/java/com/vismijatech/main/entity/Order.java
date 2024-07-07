@@ -2,16 +2,17 @@ package com.vismijatech.main.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "order_table")
 public class Order {
@@ -23,7 +24,7 @@ public class Order {
     private String name;
 
     @Column(nullable = false)
-    private LocalDate orderDate;
+    private String orderDate;
 
     // bidirectional relation between order and party
     @ManyToOne(cascade = CascadeType.ALL)
@@ -41,7 +42,7 @@ public class Order {
     private List<OrderDetails> orderDetailsList;
 
     // Constructors
-    public Order(String name, LocalDate orderDate) {
+    public Order(String name, String orderDate) {
         this.name = name;
         this.orderDate = orderDate;
     }
