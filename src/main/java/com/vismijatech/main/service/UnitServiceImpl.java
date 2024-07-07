@@ -69,4 +69,9 @@ public class UnitServiceImpl implements UnitService {
         else return Optional.empty();
     }
 
+    @Override
+    public Optional<Unit> findUnitById(Long id) {
+       return unitRepository.findById(id);
+    }
+
 }
