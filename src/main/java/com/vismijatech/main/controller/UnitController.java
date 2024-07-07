@@ -25,12 +25,10 @@ public class UnitController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping
     public ResponseEntity<?> addUnit(@RequestBody UnitDTO unitDTO) {
-        System.out.println("Unit dto: " + unitDTO);
         Unit unit = Unit.builder()
                         .name(unitDTO.getName())
                         .shortName(unitDTO.getShortName())
                         .build();
-        System.out.println("unit: " + unit);
         return unitService.addUnit(unit)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity("Unit not added!", HttpStatus.BAD_REQUEST));
@@ -40,7 +38,6 @@ public class UnitController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping
     public ResponseEntity<?> updateUnit(@RequestBody UnitDTO unitDTO) {
-        System.out.println("Unit dto: " + unitDTO);
         Unit unit = Unit.builder()
                         .id(unitDTO.getId())
                         .name(unitDTO.getName())
