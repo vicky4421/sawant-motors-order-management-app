@@ -105,5 +105,11 @@ public class SupplierServiceImpl implements SupplierService {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Supplier> findSupplierByName(String name) {
+        Supplier supplier = supplierRepository.findByName(name);
+        return Optional.ofNullable(supplier);
+    }
+
 
 }
