@@ -13,4 +13,6 @@ public class ProductDTO {
     private Long id;
     private String name;
     private String partNumber;
+    private String unit;
+    private String category;
 }
