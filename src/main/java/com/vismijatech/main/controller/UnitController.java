@@ -38,14 +38,16 @@ public class UnitController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping
     public ResponseEntity<?> updateUnit(@RequestBody UnitDTO unitDTO) {
-        Unit unit = Unit.builder()
-                        .id(unitDTO.getId())
-                        .name(unitDTO.getName())
-                        .shortName(unitDTO.getShortName())
-                        .build();
-        return unitService.updateUnit(unit)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity("Unit not updated!", HttpStatus.BAD_REQUEST));
+        Optional<Unit> unit = unitService.findUnitById(unitDTO.getId());
+        if (unit.isPresent()){
+            Unit unitToUpdate = unit.get();
+            unitToUpdate.setName(unitDTO.getName());
+            unitToUpdate.setShortName(unitDTO.getShortName());
+            return unitService.updateUnit(unitToUpdate)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity("Unit not updated!", HttpStatus.BAD_REQUEST));
+        }
+        return new ResponseEntity("Unit not found!", HttpStatus.NOT_FOUND);
     }
 
     // get all units
