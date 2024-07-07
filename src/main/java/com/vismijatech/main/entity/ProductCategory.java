@@ -1,5 +1,6 @@
 package com.vismijatech.main.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class ProductCategory {
                     CascadeType.REFRESH
             }
     )
+    @JsonIgnore
     private List<Product> productList;
 
     // Self-referencing relationship for parent category
