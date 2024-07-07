@@ -28,7 +28,6 @@ public class UnitServiceImpl implements UnitService {
     // update unit
     @Override
     public Optional<Unit> updateUnit(Unit unit) {
-        System.out.println("Unit: " + unit);
         // find unit in database
         Optional<Unit> unit1 = unitRepository.findById(unit.getId());
         if (unit1.isPresent()) {
@@ -60,6 +59,14 @@ public class UnitServiceImpl implements UnitService {
             return unit1;
         }
         return Optional.empty();
+    }
+
+    // find unit by name
+    @Override
+    public Optional<Unit> findUnitByName(String name) {
+        Unit unit = unitRepository.findByName(name);
+        if (unit != null) return Optional.ofNullable(Optional.of(unit).orElseThrow(() -> new RuntimeException("Unit not found!")));
+        else return Optional.empty();
     }
 
 }
