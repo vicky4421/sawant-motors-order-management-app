@@ -23,8 +23,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Optional<Order>> getAllOrders() {
-        return orderRepository.findAll().stream().map(Optional::of).toList();
+    public Optional<List<Order>> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return Optional.of(orders);
     }
 
     @Override
