@@ -1,10 +1,8 @@
 package com.vismijatech.main.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +25,14 @@ public class Order {
     private String orderDate;
 
     // bidirectional relation between order and party
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
     @JoinColumn(name = "supplier_id", nullable = false)
+    @JsonIgnore
     private Supplier supplier;
 
     // bidirectional relation between order and order details
@@ -39,7 +43,8 @@ public class Order {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    private List<OrderDetails> orderDetailsList;
+    @JsonIgnore
+    private List<OrderDetails> orderDetailsList = new ArrayList<>();
 
     // Constructors
     public Order(String name, String orderDate) {
@@ -49,8 +54,8 @@ public class Order {
 
     // convenience methods
     public void addOrderDetails(OrderDetails orderDetail){
-        if (orderDetailsList == null) orderDetailsList= new ArrayList<>();
         orderDetailsList.add(orderDetail);
+        orderDetail.setOrder(this);
     }
 
     public void addSupplier(Supplier supplier) {
