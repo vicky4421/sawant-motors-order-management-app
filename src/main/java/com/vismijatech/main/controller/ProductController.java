@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -124,8 +126,28 @@ public class ProductController {
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/allProducts")
     public ResponseEntity<?> getAllProducts() {
-        return productService.getAllProducts()
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity("Products not found!", HttpStatus.BAD_REQUEST));
+        Optional<List<Product>> products = productService.getAllProducts();
+        if (products.isPresent()){
+            List<Product> productList = products.get();
+            List<ProductDTO> productDTOS = productList.stream()
+                    .map(
+                            product -> {
+                                ProductDTO productDTO = ProductDTO.builder()
+                                        .id(product.getId())
+                                        .name(product.getName())
+                                        .partNumber(product.getPartNumber())
+                                        .unit(product.getUnit().getName())
+                                        .category(product.getCategory().getCategoryName())
+                                        .build();
+                                return productDTO;
+                            }
+                    )
+                    .collect(Collectors.toList());
+            return Optional.of(productDTOS)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity("No products found", HttpStatus.NOT_FOUND));
+        } else {
+            return new ResponseEntity("No products found", HttpStatus.NOT_FOUND);
+        }
     }
 }
