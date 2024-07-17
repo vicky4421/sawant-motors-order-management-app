@@ -2,10 +2,7 @@ package com.vismijatech.main.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +27,14 @@ public class Supplier {
     private String alternateNumber;
 
     // bidirectional relation between order and party
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "supplier", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
     @JsonIgnore
+    @ToString.Exclude                           // to avoid recursive call of toString
     private List<Order> orderList;
 
     // Constructors
