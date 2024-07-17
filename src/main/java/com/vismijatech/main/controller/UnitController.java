@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/unit")
@@ -55,22 +55,25 @@ public class UnitController {
     @GetMapping("/allUnits")
     public ResponseEntity<?> getAllUnits() {
         Optional<List<Unit>> units = unitService.getAllUnits();
-        List<UnitDTO> unitDTOList = new ArrayList<>();
         if (units.isPresent()){
             List<Unit> unitList = units.get();
-            unitList.forEach(unit -> {
-                UnitDTO unitDTO = UnitDTO.builder()
-                        .id(unit.getId())
-                        .name(unit.getName())
-                        .shortName(unit.getShortName())
-                        .build();
-                unitDTOList.add(unitDTO);
-            });
+            List<UnitDTO> unitDTOList = unitList.stream()
+                    .map(
+                            unit -> {
+                                return UnitDTO.builder()
+                                        .id(unit.getId())
+                                        .name(unit.getName())
+                                        .shortName(unit.getShortName())
+                                        .build();
+                            }
+                    )
+                    .collect(Collectors.toList());
+            return Optional.of(unitDTOList)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity("No units found", HttpStatus.NOT_FOUND));
+        } else {
+            return new ResponseEntity("No units found", HttpStatus.NOT_FOUND);
         }
-        Optional<List<UnitDTO>> unitsDTO = Optional.of(unitDTOList);
-        return unitsDTO
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity("No units found!", HttpStatus.NOT_FOUND));
     }
 
     // delete unit
