@@ -22,6 +22,7 @@ public class SupplierServiceImpl implements SupplierService {
     // save supplier
     @Override
     public Optional<Supplier> saveSupplier(Supplier supplier) {
+
         // get all suppliers
         List<Supplier> allSuppliers = supplierRepository.findAll();
 
@@ -31,21 +32,20 @@ public class SupplierServiceImpl implements SupplierService {
         // get all suppliers alternate number
         List<String> alternateNumbers = allSuppliers.stream().map(Supplier::getAlternateNumber).toList();
 
-        // check suppliers whatsapp number in both list
-        if (whatsappNumbers.contains(supplier.getWhatsappNumber()) || alternateNumbers.contains(supplier.getWhatsappNumber())) {
+        // check suppliers whatsapp number in alternate no list
+        if (alternateNumbers.contains(supplier.getWhatsappNumber())) {
             return Optional.empty();
         }
 
         // check suppliers alternate number in both list
         if (supplier.getAlternateNumber() != null){
-            if (whatsappNumbers.contains(supplier.getAlternateNumber()) || alternateNumbers.contains(supplier.getAlternateNumber())) {
+            if (whatsappNumbers.contains(supplier.getAlternateNumber()) || alternateNumbers.contains(supplier.getWhatsappNumber())) {
                 return Optional.empty();
             }
         }
 
         // save supplier to database
-        Supplier supplier1 = supplierRepository.save(supplier);
-        return Optional.of(supplier1);
+        return Optional.of(supplierRepository.save(supplier));
     }
 
     // get all suppliers
@@ -71,36 +71,35 @@ public class SupplierServiceImpl implements SupplierService {
         return Optional.empty();
     }
 
-
+    // update supplier
     @Override
     public Optional<Supplier> updateSupplier(Supplier supplier) {
+
         // get supplier from database
         Optional<Supplier> oldSupplier = supplierRepository.findById(supplier.getId());
-        if (oldSupplier.isPresent()) {
-            Supplier newSupplier = oldSupplier.get();
-            if (!supplier.getName().isEmpty()) {
-                newSupplier.setName(supplier.getName());
-            }
-            if (!supplier.getAlternateNumber().isEmpty()) {
-                newSupplier.setAlternateNumber(supplier.getAlternateNumber());
-            }
-            if (!supplier.getWhatsappNumber().isEmpty()) {
-                newSupplier.setWhatsappNumber(supplier.getWhatsappNumber());
-            }
 
-            return Optional.of(supplierRepository.save(newSupplier));
+        if (oldSupplier.isPresent()) {
+
+            // assign suppliers value to old supplier if present
+            if (!supplier.getName().isEmpty()) oldSupplier.get().setName(supplier.getName());
+            if (!supplier.getWhatsappNumber().isEmpty()) oldSupplier.get().setWhatsappNumber(supplier.getWhatsappNumber());
+            if (!supplier.getAlternateNumber().isEmpty()) oldSupplier.get().setAlternateNumber(supplier.getAlternateNumber());
+
+            return saveSupplier(oldSupplier.get());
         }
         return Optional.empty();
     }
 
+    // update suppliers contact number.
     @Override
     public Optional<Supplier> updateContactNumber(Supplier supplier) {
+
         // get supplier from database
         Optional<Supplier> oldSupplier = supplierRepository.findById(supplier.getId());
         if (oldSupplier.isPresent()){
-            if (supplier.getWhatsappNumber() == null) oldSupplier.get().setWhatsappNumber(null);
-            if (supplier.getAlternateNumber() == null) oldSupplier.get().setAlternateNumber(null);
-            return Optional.of(supplierRepository.save(oldSupplier.get()));
+            oldSupplier.get().setWhatsappNumber(supplier.getWhatsappNumber());
+            oldSupplier.get().setAlternateNumber(supplier.getAlternateNumber());
+            return saveSupplier(oldSupplier.get());
         }
         return Optional.empty();
     }
