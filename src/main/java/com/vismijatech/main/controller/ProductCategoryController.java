@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/productCategory")
@@ -53,23 +53,26 @@ public class ProductCategoryController {
     public ResponseEntity<?> getAllCategories() {
         // get all categories from database
         Optional<List<ProductCategory>> categories = categoryService.getAllCategories();
-        List<ProductCategoryDTO> categoryDTOList = new ArrayList<>();
         if (categories.isPresent()){
             List<ProductCategory> categoryList = categories.get();
-            categoryList.forEach(category -> {
-                ProductCategoryDTO categoryDTO = ProductCategoryDTO.builder()
-                        .id(category.getId())
-                        .categoryName(category.getCategoryName())
-                        .parentCategory(category.getParentCategory() != null ? category.getParentCategory().getCategoryName() : null)
-                        .build();
-                categoryDTOList.add(categoryDTO);
-            });
+            List<ProductCategoryDTO> categoryDTOList = categoryList.stream()
+                    .map(
+                            category -> {
+                                return ProductCategoryDTO.builder()
+                                        .id(category.getId())
+                                        .categoryName(category.getCategoryName())
+                                        .parentCategory(category.getParentCategory().getCategoryName())
+                                        .build();
+                            }
+                    )
+                    .collect(Collectors.toList());
+            System.out.println("category dto list: " + categoryDTOList);
+            return Optional.of(categoryDTOList)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity("No categories found", HttpStatus.NOT_FOUND));
+        } else {
+            return new ResponseEntity("No categories found", HttpStatus.NOT_FOUND);
         }
-
-        Optional<List<ProductCategoryDTO>> categoriesDTO = Optional.of(categoryDTOList);
-        return categoriesDTO
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity("Categories not found!", HttpStatus.NOT_FOUND));
     }
 
     // delete category
